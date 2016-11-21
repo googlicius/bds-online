@@ -1,0 +1,43 @@
+<div class="content">
+	<form [formGroup]="loginForm" novalidate (ngSubmit)="login(loginForm.value,loginForm.valid)" class="login-form">
+	<h3 class="my_login_class form-title">Login to your account</h3>
+
+		<div *ngIf="login_error_msg" class="alert alert-danger">{{ login_error_msg }}</div>
+
+		<!-- Email -->
+		<div class="form-group">
+			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+			<label class="control-label visible-ie8 visible-ie9">Email</label>
+			<div class="input-icon">
+				<i class="fa fa-user"></i>
+				<input class="form-control placeholder-no-fix" type="email" placeholder="Email" formControlName="email" />
+			</div>
+			<label class="error" [hidden]="loginForm.controls.email.valid || (loginForm.controls.email.pristine && !submitted)">Email is required</label>
+		</div>
+		<!-- /Email -->
+
+		<!-- Password -->
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">Password</label>
+			<div class="input-icon">
+				<i class="fa fa-lock"></i>
+				<input shared-focus-input class="form-control placeholder-no-fix" type="password" placeholder="Password" formControlName="password" />
+			</div>
+			<label class="error" [hidden]="loginForm.controls.password.valid || (loginForm.controls.password.pristine && !submitted)">Password is required</label>
+		</div>
+		<!-- !Password -->
+
+		<!-- Actions -->
+		<div class="form-actions clearfix">
+			<div class="col-xs-8">
+				<label class="checkbox">
+					<input type="checkbox" formControlName="rememberMe" /> Remember me
+				</label>
+			</div>
+			<div class="col-xs-4 text-right">
+				<input type="submit" class="btn green pull-right" value="Login">
+			</div>
+		</div>
+		<!-- /Actions -->
+	</form>
+</div>
