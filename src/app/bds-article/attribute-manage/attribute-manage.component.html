@@ -5,7 +5,44 @@
                 Quản lý trường
             </div>
             <div class="panel-body">
-                quản lý trường
+                <div class="row-fluid">
+                    <!-- BLOCKS LIST -->
+                    <div class="col-sm-6">
+                        <ul class="blocks">
+                            <li *ngFor="let block of blocks" class="block">
+                                <div class="block-heading">
+                                    <div class="row-fluid clearfix">
+                                        <div class="col-xs-8"><span class="title">{{ block.label }}</span></div>
+                                        <div class="col-xs-4 text-right">
+                                            <a href="javascript:void(0)"> Chỉnh sửa</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-body">
+                                    <ul class="attributes">
+                                        <li *ngFor="let attr of block.attributes" class="attribute">
+                                            <div class="row-fluid clearfix">
+                                                <div class="col-xs-12">
+                                                    <a href="javascript:void(0)" (click)="triggerEditAttribute(attr)">{{ attr.label }}</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="attribute"><a (click)="triggerAddNewAttribute()" href="javascript:void(0)"><i class="fa fa-plus"></i> {{ 'manage.LBL_ADD_ATTR' | translate }}</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="block">
+                                <a href="javascript:void(0)" style="font-size:1.1em"><i class="fa fa-plus"></i> Thêm block</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /BLOCKS LIST -->
+                    <!-- ADDING/EDITING ATTRIBUTE -->
+                    <div class="col-sm-6">
+                        <attribute-edit></attribute-edit>
+                    </div>
+                    <!-- /ADDING/EDITING ATTRIBUTE -->
+                </div>
             </div>
         </section>
     </div>

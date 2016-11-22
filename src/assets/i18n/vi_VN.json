@@ -1,0 +1,18 @@
+{
+    "sidebar": {
+        "LBL_DASHBOARD": "Bảng điều khiển",
+        "LBL_MANAGE_ATTRIBUTES": "Quản lý trường",
+        "LBL_LIST_OPTIONS": "Danh sách chọn",
+        "LBL_CHANGE_PW": "Đổi mật khẩu",
+        "LBL_PERSONAL": "Cá nhân",
+        "LBL_ORG": "Công ty",
+        "LBL_PROFILE": "Thông tin cá nhân",
+        "LBL_SETTINGS": "Cài đặt",
+        "LBL_ARTICLE_MANAGE": "Quản lý tin",
+        "LBL_USER": "Người dùng",
+        "LBL_ACCOUNT": "Tài khoản"
+    },
+    "manage": {
+        "LBL_ADD_ATTR": "Thêm trường"
+    }
+}

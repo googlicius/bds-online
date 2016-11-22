@@ -45,7 +45,7 @@ export class LoginFormComponent {
 		if(isValid){
 			this.authenticationService.login(model).subscribe(result => {
 				if(result){
-					this.router.navigateByUrl('/portlet-light');
+					this.router.navigateByUrl('/article');
 				}
 				else{
 					this.login_error_msg = "Username or password is incorrect";

@@ -1,15 +1,15 @@
-<div class="content">
-	<form [formGroup]="loginForm" novalidate (ngSubmit)="login(loginForm.value,loginForm.valid)" class="login-form">
-	<h3 class="my_login_class form-title">Login to your account</h3>
+<form [formGroup]="loginForm" novalidate (ngSubmit)="login(loginForm.value,loginForm.valid)" class="form-signin">
+	<h2 class="form-signin-heading">Login to your account</h2>
 
+	<div class="login-wrap">
 		<div *ngIf="login_error_msg" class="alert alert-danger">{{ login_error_msg }}</div>
 
 		<!-- Email -->
 		<div class="form-group">
 			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 			<label class="control-label visible-ie8 visible-ie9">Email</label>
-			<div class="input-icon">
-				<i class="fa fa-user"></i>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-user"></i></div>
 				<input class="form-control placeholder-no-fix" type="email" placeholder="Email" formControlName="email" />
 			</div>
 			<label class="error" [hidden]="loginForm.controls.email.valid || (loginForm.controls.email.pristine && !submitted)">Email is required</label>
@@ -19,8 +19,8 @@
 		<!-- Password -->
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">Password</label>
-			<div class="input-icon">
-				<i class="fa fa-lock"></i>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-lock"></i></div>
 				<input shared-focus-input class="form-control placeholder-no-fix" type="password" placeholder="Password" formControlName="password" />
 			</div>
 			<label class="error" [hidden]="loginForm.controls.password.valid || (loginForm.controls.password.pristine && !submitted)">Password is required</label>
@@ -39,5 +39,5 @@
 			</div>
 		</div>
 		<!-- /Actions -->
-	</form>
-</div>
+	</div>
+</form>

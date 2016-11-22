@@ -5,21 +5,21 @@
             <li>
                 <a href="#/home/dashboard">
                     <i class="fa fa-dashboard"></i>
-                    <span>Quản lý tin</span>
+                    <span>{{ 'sidebar.LBL_ARTICLE_MANAGE' | translate }}</span>
                 </a>
             </li>
 
             <li class="sub-menu">
                 <a href="">
                     <i class="fa fa-file-text-o"></i>
-                    <span>Cài đặt</span>
+                    <span>{{ 'sidebar.LBL_SETTINGS' | translate }}</span>
                 </a>
                 <ul class="sub">
                     <li routerLinkActive="active">
-                        <a routerLink="/article/quan-ly-truong">Quản lý trường</a>
+                        <a routerLink="/article/quan-ly-truong">{{ 'sidebar.LBL_MANAGE_ATTRIBUTES' | translate }}</a>
                     </li>
                     <li routerLinkActive="active">
-                        <a routerLink="/article/danh-sach-chon">Danh sách chọn</a>
+                        <a routerLink="/article/danh-sach-chon">{{ 'sidebar.LBL_LIST_OPTIONS' | translate }}</a>
                     </li>
                 </ul>
             </li>
@@ -27,29 +27,29 @@
             <li class="sub-menu">
                 <a href="">
                     <i class="fa fa-star-o"></i>
-                    <span>Thông tin cá nhân</span>
+                    <span>{{ 'sidebar.LBL_PROFILE' | translate }}</span>
                 </a>
                 <ul class="sub">
                     <li routerLinkActive="active">
-                        <a routerLink="/user/thong-tin-tai-khoan">Tài khoản</a>
+                        <a routerLink="/user/thong-tin-tai-khoan">{{ 'sidebar.LBL_ACCOUNT' | translate }}</a>
                     </li>
                     <li routerLinkActive="active">
-                        <a routerLink="/user/doi-mat-khau">Đổi mật khẩu</a>
+                        <a routerLink="/user/doi-mat-khau">{{ 'sidebar.LBL_CHANGE_PW' | translate }}</a>
                     </li>
                 </ul>
             </li>
 
             <li class="sub-menu">
                 <a href="">
-                    <i class="fa fa-user-group"></i>
-                    <span>Người dùng</span>
+                    <i class="fa fa-users"></i>
+                    <span>{{ 'sidebar.LBL_USER' | translate }}</span>
                 </a>
                 <ul class="sub">
                     <li routerLinkeActive="active">
-                        <a routerLink="/user/danh-sach/ca-nhan">Cá nhân</a>
+                        <a routerLink="/user/danh-sach/ca-nhan">{{ 'sidebar.LBL_PERSONAL' | translate }}</a>
                     </li>
                     <li routerLinkeActive="active">
-                        <a routerLink="/user/danh-sach/cong-ty">Công ty</a>
+                        <a routerLink="/user/danh-sach/cong-ty">{{ 'sidebar.LBL_ORG' | translate }}</a>
                     </li>
                 </ul>
             </li>
