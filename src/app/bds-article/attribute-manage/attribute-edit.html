@@ -1,29 +1,49 @@
 <div class="row-fluid">
-    <h3>Add new attribute</h3>
-    <form [formGroup]="attr_form" novalidate (ngSubmit)="save(attr_form.value,attr_form.valid)">
+    <h3>{{ form_title }}</h3>
+    <form [formGroup]="attr_form" novalidate (ngSubmit)="triggerSave()">
         <!-- label -->
 		<div class="form-group">
 			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 			<label class="control-label visible-ie8 visible-ie9">Label</label>
 			<div class="input-group">
-				<input class="form-control placeholder-no-fix" type="text" placeholder="Label" formControlName="label" />
+				<input formControlName="label" class="form-control placeholder-no-fix" type="text" placeholder="Label" />
 			</div>
 			<label class="error" [hidden]="attr_form.controls.label.valid || (attr_form.controls.label.pristine && !submitted)">Label is required</label>
 		</div>
 		<!-- /label -->
+
+        <!-- Is custom -->
+        <div class="form-group">
+            <label class="checkbox">
+                <input formControlName="is_custom" type="checkbox"> Is Custom
+            </label>
+        </div>
+        <!-- /Is custom -->
+
+        <!-- Name -->
+        <div class="form-group" *ngIf="!attr_form.value.is_custom">
+            <label class="control-label visible-ie8 visible-ie9">Name</label>
+            <div class="input-group">
+                <input formControlName="name" type="text" class="form-control placeholder-no-fix" placeholder="Name" />
+            </div>
+            <label class="error" [hidden]="attr_form.controls.name.valid || (attr_form.controls.name.pristine && !submitted)">Name is required</label>
+        </div>
+        <!-- /Name -->
 
         <!-- type -->
 		<div class="form-group">
 			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 			<label class="control-label visible-ie8 visible-ie9">Type</label>
 			<div class="input-group">
-                <select class="form-control placeholder-no-fix">
+                <select class="form-control placeholder-no-fix" formControlName="type">
                     <option value="">-- Select type --</option>
                     <option value="text">Text</option>
                     <option value="number">Number</option>
                     <option value="select">Select</option>
                     <option value="radio">Radio</option>
                     <option value="checkbox">Checkbox</option>
+                    <option value="date">Date</option>
+                    <option value="textarea">Long text</option>
                 </select>
 			</div>
 			<label class="error" [hidden]="attr_form.controls.type.valid || (attr_form.controls.type.pristine && !submitted)">Type is required</label>

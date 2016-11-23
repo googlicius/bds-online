@@ -2,9 +2,13 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { LoginForm } from './login-form.interface';
-
 import { AuthenticationService } from '../../services/authentication.service';
+
+interface LoginForm {
+	username: string;
+	password: string;
+	rememberMe: boolean;
+}
 
 @Component({
 	selector: 'app-login-form',
@@ -31,12 +35,12 @@ export class LoginFormComponent {
 
 		// we will initialize our form model here
 		this.loginForm = fb.group({
-			email: ['', [<any>Validators.required]],
+			username: ['', [<any>Validators.required]],
 			password: ['', [<any>Validators.required]],
 			rememberMe: [false]
 		});
 		this.loginForm.patchValue({
-			email: 'haidang009@gmail.com',
+			username: 'admin',
 		});
 	}
 

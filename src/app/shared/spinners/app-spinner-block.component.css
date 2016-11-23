@@ -1,0 +1,7 @@
+.block-spinner-bar {
+    width: 50px;
+}
+.block-spinner-bar > div{
+    width: 8px;
+    height: 8px;
+}

@@ -4,17 +4,17 @@
 	<div class="login-wrap">
 		<div *ngIf="login_error_msg" class="alert alert-danger">{{ login_error_msg }}</div>
 
-		<!-- Email -->
+		<!-- Username -->
 		<div class="form-group">
 			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9">Email</label>
+			<label class="control-label visible-ie8 visible-ie9">Username</label>
 			<div class="input-group">
 				<div class="input-group-addon"><i class="fa fa-user"></i></div>
-				<input class="form-control placeholder-no-fix" type="email" placeholder="Email" formControlName="email" />
+				<input class="form-control placeholder-no-fix" type="text" placeholder="Username" formControlName="username" />
 			</div>
-			<label class="error" [hidden]="loginForm.controls.email.valid || (loginForm.controls.email.pristine && !submitted)">Email is required</label>
+			<label class="error" [hidden]="loginForm.controls.username.valid || (loginForm.controls.username.pristine && !submitted)">Username is required</label>
 		</div>
-		<!-- /Email -->
+		<!-- /Username -->
 
 		<!-- Password -->
 		<div class="form-group">

@@ -12,7 +12,7 @@
                             <li *ngFor="let block of blocks" class="block">
                                 <div class="block-heading">
                                     <div class="row-fluid clearfix">
-                                        <div class="col-xs-8"><span class="title">{{ block.label }}</span></div>
+                                        <div class="col-xs-8"><span class="title">{{ block.name }}</span></div>
                                         <div class="col-xs-4 text-right">
                                             <a href="javascript:void(0)"> Chỉnh sửa</a>
                                         </div>
@@ -23,11 +23,11 @@
                                         <li *ngFor="let attr of block.attributes" class="attribute">
                                             <div class="row-fluid clearfix">
                                                 <div class="col-xs-12">
-                                                    <a href="javascript:void(0)" (click)="triggerEditAttribute(attr)">{{ attr.label }}</a>
+                                                    <a href="javascript:void(0)" (click)="triggerEditAttribute(block,attr)">{{ attr.label }}</a>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="attribute"><a (click)="triggerAddNewAttribute()" href="javascript:void(0)"><i class="fa fa-plus"></i> {{ 'manage.LBL_ADD_ATTR' | translate }}</a></li>
+                                        <li class="attribute"><a (click)="triggerAddNewAttribute(block)" href="javascript:void(0)"><i class="fa fa-plus"></i> {{ 'manage.LBL_ADD_ATTR' | translate }}</a></li>
                                     </ul>
                                 </div>
                             </li>

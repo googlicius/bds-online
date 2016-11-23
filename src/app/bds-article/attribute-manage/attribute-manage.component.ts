@@ -1,97 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
+import { Response } from '@angular/http'; 
+import { Observable } from 'rxjs';
+import { Resolve, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { AttributeService } from './attribute.service';
+import { Attribute, Block } from './interfaces';
+import { AuthHttp, urlEncode } from './../../shared';
 
-interface  Block{
-    block_id: number,
-    name: string,
-    label: string,
-    seq: number,
-    attributes: Attribute[]
-}
-interface Attribute{
-    attr_id: number,
-    name: string,
-    label: string,
-    seq: number,
-    type: InputType,
-}
-interface InputType{
-    name: string,
-    options?: any[]
+@Injectable()
+export class BlocksResolver implements Resolve<any>{
+	constructor(public http: AuthHttp){}
+
+	getBlocks(): Observable<any>{
+		return this.http.get('/article-manage/get-blocks').map((response: Response) => {
+			return response.json();
+		});
+	}
+
+	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>|Promise<any>|any{
+		return this.getBlocks();
+	}
 }
 
 @Component({
     selector: 'app-attribute-manage',
     templateUrl: './attribute-manage.component.html',
-    styleUrls: ['./attribute-manage.component.css']
+    styleUrls: ['./attribute-manage.component.css'],
+    providers: [AttributeService]
 })
 export class AttributeManageComponent implements OnInit {
 
     blocks: Block[];
+    attr_to_edit: Attribute;
 
-    constructor() { }
+    constructor(private _attributeService: AttributeService, private _activatedRoute: ActivatedRoute) {
+        _attributeService.saveAnnounced.subscribe((data: Attribute) => {
+            console.log("Attribute saved: ", data);
+            if(this.attr_to_edit){
+                this.attr_to_edit.label = data.label;
+                this.attr_to_edit.type = data.type;
+                this.attr_to_edit.allow_null = data.allow_null;
+                this.attr_to_edit = null;
+            }else{
+                let block_to_add = this.blocks.filter((block: Block) => {
+                    return block.block_id == data.block_id;
+                });
+
+                block_to_add[0].attributes.push(data);
+            }
+        });
+    }
 
     ngOnInit() {
 
-        this.blocks = [
-            {
-                block_id: 1,
-                name: "thongTinCoBan",
-                label: "Thông tin cơ bản",
-                seq: 1,
-                attributes: [
-                    {
-                        attr_id: 1,
-                        name: "district",
-                        label: "District",
-                        seq: 2,
-                        type: {name: "select"}
-                    },{
-                        attr_id: 2,
-                        name: "description",
-                        label: "Mô tả",
-                        seq: 3,
-                        type: {name: "textarea"}
-                    },{
-                        attr_id: 3,
-                        name: "title",
-                        label: "Tiêu đề",
-                        seq: 1,
-                        type: {name: "text"}
-                    }
-                ]
-            },
-            {
-                block_id: 2,
-                name: "thongTinLienHe",
-                label: "Thông tin liên hệ",
-                seq: 2,
-                attributes: [
-                    {
-                        attr_id: 4,
-                        name: "contact_name",
-                        label: "Tên liên hệ",
-                        seq: 1,
-                        type: {name: "text"}
-                    },
-                    {
-                        attr_id: 5,
-                        name: "contact_phone",
-                        label: "Số điện thoại",
-                        seq: 2,
-                        type: {name: "text"}
-                    }
-                ]
-            }
-        ];
+        let blocks_res = this._activatedRoute.snapshot.data['blocks'];
 
-        
+        this.blocks = blocks_res.blocks;
     }
 
-    triggerEditAttribute(attr){
-
+    triggerEditAttribute(block: Block, attr: Attribute){
+        console.log(attr);
+        this._attributeService.editAnnounce(block,attr);
+        this.attr_to_edit = attr;
     }
 
-    triggerAddNewAttribute(){
-
+    triggerAddNewAttribute(block){
+        this._attributeService.editAnnounce(block);
     }
 }
