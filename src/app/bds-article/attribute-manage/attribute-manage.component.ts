@@ -1,25 +1,9 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { Response } from '@angular/http'; 
-import { Observable } from 'rxjs';
-import { Resolve, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AttributeService } from './attribute.service';
 import { Attribute, Block } from './interfaces';
-import { AuthHttp, urlEncode } from './../../shared';
-
-@Injectable()
-export class BlocksResolver implements Resolve<any>{
-	constructor(public http: AuthHttp){}
-
-	getBlocks(): Observable<any>{
-		return this.http.get('/article-manage/get-blocks').map((response: Response) => {
-			return response.json();
-		});
-	}
-
-	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>|Promise<any>|any{
-		return this.getBlocks();
-	}
-}
+import { urlEncode } from './../../shared';
 
 @Component({
     selector: 'app-attribute-manage',
@@ -31,6 +15,7 @@ export class AttributeManageComponent implements OnInit {
 
     blocks: Block[];
     attr_to_edit: Attribute;
+    private add_block_form_open: boolean = false;
 
     constructor(private _attributeService: AttributeService, private _activatedRoute: ActivatedRoute) {
         _attributeService.saveAnnounced.subscribe((data: Attribute) => {
@@ -65,5 +50,13 @@ export class AttributeManageComponent implements OnInit {
 
     triggerAddNewAttribute(block){
         this._attributeService.editAnnounce(block);
+    }
+
+    triggerAddNewBlock(){
+        this.add_block_form_open = true;
+    }
+
+    triggerSaveBlock(){
+        this.add_block_form_open = false;
     }
 }

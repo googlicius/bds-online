@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BdsArticleComponent } from './bds-article.component';
-import { AttributeManageComponent, BlocksResolver } from './attribute-manage/attribute-manage.component';
+import { AttributeManageComponent } from './attribute-manage/attribute-manage.component';
+import { BlocksResolver } from './attribute-manage/resolvers';
 import { AttributeOptionsComponent } from './attribute-options/attribute-options.component';
 
 let routes: Routes = [

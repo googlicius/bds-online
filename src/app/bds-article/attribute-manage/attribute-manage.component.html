@@ -32,7 +32,11 @@
                                 </div>
                             </li>
                             <li class="block">
-                                <a href="javascript:void(0)" style="font-size:1.1em"><i class="fa fa-plus"></i> Thêm block</a>
+                                <form *ngIf="add_block_form_open" (ngSubmit)="triggerSaveBlock()">
+                                    <input type="text" class="form-control" placeholder="Enter name of block">
+                                    <input type="submit" class="btn btn-primary" value="Save">
+                                </form>
+                                <a *ngIf="!add_block_form_open" (click)="triggerAddNewBlock()" href="javascript:void(0)" style="font-size:1.1em"><i class="fa fa-plus"></i> Thêm block</a>
                             </li>
                         </ul>
                     </div>
