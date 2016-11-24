@@ -67,14 +67,15 @@ export class AttributeEdit implements OnInit, OnDestroy
     triggerSave()
     {
         if(!this.attr_form.value.name && this.attr_form.value.label){
-            this.attr_form.value.name = this.convertStringToName(this.attr_form.value.label);
+            this.attr_form.controls['name'].setValue(this.convertStringToName(this.attr_form.value.label));
+            this.attr_form.updateValueAndValidity();
         }
         console.log(this.attr_form.errors);
         if(this.attr_form.valid){
             console.log("Form valid and prepare to save");
             this._attributeService.saveAnnounce(this.attr_form.value);
         }else{
-            console.log("Form invalid");
+            console.log("Form invalid", this.attr_form.errors,this.attr_form.value);
         }
     }
 

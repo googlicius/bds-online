@@ -12,9 +12,23 @@
                             <li *ngFor="let block of blocks" class="block">
                                 <div class="block-heading">
                                     <div class="row-fluid clearfix">
-                                        <div class="col-xs-8"><span class="title">{{ block.name }}</span></div>
+                                        <div class="col-xs-8">
+                                            <span *ngIf="!block.edit" class="title">{{ block.name }}</span>
+                                            <form *ngIf="block.edit" [formGroup]="block_form" (ngSubmit)="triggerSaveBlock()" style="margin-bottom: 10px;">
+                                                <div class="row clearfix">
+                                                    <div class="col-xs-6">
+                                                        <input formControlName="name" [value]="block.name" type="text" required="required" class="form-control" placeholder="Enter name of block">
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <input type="submit" class="btn btn-primary" value="Save">
+                                                        <input (click)="triggerCancelEditBlock(block)" type="button" class="btn btn-default" value="Cancel">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                         <div class="col-xs-4 text-right">
-                                            <a href="javascript:void(0)"> Chỉnh sửa</a>
+                                            <a (click)="triggerEditBlock(block)" href="javascript:void(0)"> Sửa</a>
+                                            <a (click)="triggerDeleteBlock(block)" href="javascript:void(0)"> Xóa</a>
                                         </div>
                                     </div>
                                 </div>
@@ -32,11 +46,18 @@
                                 </div>
                             </li>
                             <li class="block">
-                                <form *ngIf="add_block_form_open" (ngSubmit)="triggerSaveBlock()">
-                                    <input type="text" class="form-control" placeholder="Enter name of block">
-                                    <input type="submit" class="btn btn-primary" value="Save">
+                                <form *ngIf="block_form_open" [formGroup]="block_form" (ngSubmit)="triggerSaveBlock()">
+                                    <div class="row-fluid clearfix">
+                                        <div class="col-xs-6">
+                                            <input formControlName="name" type="text" class="form-control" placeholder="Enter name of block">
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input type="submit" class="btn btn-primary" value="Save">
+                                            <label class="error" [hidden]="block_form.controls.name.valid || (block_form.controls.name.pristine && !submitted)">Name is required</label>
+                                        </div>
+                                    </div>
                                 </form>
-                                <a *ngIf="!add_block_form_open" (click)="triggerAddNewBlock()" href="javascript:void(0)" style="font-size:1.1em"><i class="fa fa-plus"></i> Thêm block</a>
+                                <a *ngIf="!block_form_open" (click)="triggerAddNewBlock()" href="javascript:void(0)" style="font-size:1.1em"><i class="fa fa-plus"></i> Thêm block</a>
                             </li>
                         </ul>
                     </div>

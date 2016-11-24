@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { FlatlabTemplateModule as TemplateModule } from './../templates/flatlab';
 import { SharedModule } from './../shared';
 import { BdsArticleRoutingModule } from './bds-article-routing.module';
@@ -14,6 +15,7 @@ import { AttributeOptionsComponent } from './attribute-options/attribute-options
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    ToasterModule,
     SharedModule,
     TemplateModule,
     BdsArticleRoutingModule,

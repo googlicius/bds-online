@@ -5,6 +5,7 @@ export interface  Block{
     seq: number;
     description?: string;
     attributes: Attribute[];
+    edit?: boolean;
 }
 
 export interface Attribute{

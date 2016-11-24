@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { SpinnerService } from './../shared';
 
 @Component({
     selector: 'app-bds-article',
@@ -22,7 +24,10 @@ import { Component, OnInit } from '@angular/core';
             <!--main content end-->
             <app-footer></app-footer>
         </div>
+        <app-spinner [message]="'Loading...'"></app-spinner>
+        <toaster-container></toaster-container>
     `,
+    providers: [SpinnerService, ToasterService]
 })
 export class BdsArticleComponent implements OnInit {
 

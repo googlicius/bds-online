@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { Observable } from 'rxjs';
+import { Response } from '@angular/http';
 import { AttributeService } from './attribute.service';
 import { Attribute, Block } from './interfaces';
-import { urlEncode } from './../../shared';
+import { AuthHttp, urlEncode, SpinnerService } from './../../shared';
 
 @Component({
     selector: 'app-attribute-manage',
@@ -15,23 +18,44 @@ export class AttributeManageComponent implements OnInit {
 
     blocks: Block[];
     attr_to_edit: Attribute;
-    private add_block_form_open: boolean = false;
+    block_form: FormGroup;
+    private block_form_open: boolean = false;
 
-    constructor(private _attributeService: AttributeService, private _activatedRoute: ActivatedRoute) {
+    constructor(
+        private _attributeService: AttributeService,
+        private _activatedRoute: ActivatedRoute, 
+        private _fb: FormBuilder, 
+        private http: AuthHttp, 
+        private _spinnerService: SpinnerService,
+        private toasterService: ToasterService) {
         _attributeService.saveAnnounced.subscribe((data: Attribute) => {
-            console.log("Attribute saved: ", data);
-            if(this.attr_to_edit){
-                this.attr_to_edit.label = data.label;
-                this.attr_to_edit.type = data.type;
-                this.attr_to_edit.allow_null = data.allow_null;
-                this.attr_to_edit = null;
-            }else{
-                let block_to_add = this.blocks.filter((block: Block) => {
-                    return block.block_id == data.block_id;
-                });
+            _spinnerService.start("Saving...");
+            this.saveAttribute(data).subscribe((result: {success: boolean, blocks: Block[],message: string}) => {
+                _spinnerService.stop();
+                if(result.success)
+                    this.blocks = result.blocks;
+                else
+                    this.toasterService.pop('error', 'Error', result.message);
+            });
 
-                block_to_add[0].attributes.push(data);
-            }
+            // if(this.attr_to_edit){
+            //     this.attr_to_edit.label = data.label;
+            //     this.attr_to_edit.type = data.type;
+            //     this.attr_to_edit.allow_null = data.allow_null;
+            //     this.attr_to_edit = null;
+            // }else{
+            //     let block_to_add = this.blocks.filter((block: Block) => {
+            //         return block.block_id == data.block_id;
+            //     });
+
+            //     block_to_add[0].attributes.push(data);
+            // }
+        });
+
+        this.block_form = _fb.group({
+            name: ['',Validators.required],
+            seq: [],
+            block_id: [],
         });
     }
 
@@ -40,6 +64,8 @@ export class AttributeManageComponent implements OnInit {
         let blocks_res = this._activatedRoute.snapshot.data['blocks'];
 
         this.blocks = blocks_res.blocks;
+
+        this.toasterService.pop('success', 'Title', 'Popup content');
     }
 
     triggerEditAttribute(block: Block, attr: Attribute){
@@ -53,10 +79,71 @@ export class AttributeManageComponent implements OnInit {
     }
 
     triggerAddNewBlock(){
-        this.add_block_form_open = true;
+        this.block_form_open = true;
+        this.block_form.reset();
     }
 
     triggerSaveBlock(){
-        this.add_block_form_open = false;
+        if(this.block_form.valid){
+            console.log(this.block_form.value);
+            this._spinnerService.start("Saving...");
+
+            this.saveBlock(this.block_form.value).subscribe((result: {success: boolean, blocks: Block[], message: string}) => {
+                if(result.success){
+                    this.blocks = result.blocks;
+                }
+                else{
+                    this.toasterService.pop('error', 'Error', result.message);
+                }
+                this.block_form_open = false;
+                this._spinnerService.stop();
+            });
+        }else{
+            console.log("Could not save", this.block_form.errors);
+        }
     }
+
+    triggerEditBlock(block: Block){
+        block.edit = true;
+        this.block_form.patchValue({
+            name: block.name,
+            seq: block.seq,
+            block_id: block.block_id,
+        });
+    }
+
+    triggerCancelEditBlock(block: Block){
+        block.edit = false;
+    }
+
+    triggerDeleteBlock(block: Block){
+        this.deleteBlock(block.block_id).subscribe((result: {success: boolean, blocks: Block[], message: string}) => {
+            if(result.success){
+                this.blocks = result.blocks;
+            }else{
+                this.toasterService.pop('error', 'Error', result.message);
+            }
+        });
+    }
+
+    saveBlock(value): Observable<any>{
+		return this.http.post('/block/save-block', value).map((response: Response) => {
+			return response.json();
+		});
+	}
+
+    saveAttribute(attr: Attribute): Observable<any>
+    {
+        return this.http.post('/attribute/save-attribute', attr).map((response: Response) => {
+            return response.json();
+        });
+    }
+
+    deleteBlock(block_id): Observable<any>{
+        if(confirm("Are you sure to delete this block?")){
+            return this.http.post('/block/delete-block', {block_id: block_id}).map((response: Response) => {
+                return response.json();
+            });
+        }
+	}
 }
