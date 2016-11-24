@@ -28,6 +28,7 @@ export class AttributeManageComponent implements OnInit {
         private http: AuthHttp, 
         private _spinnerService: SpinnerService,
         private toasterService: ToasterService) {
+
         _attributeService.saveAnnounced.subscribe((data: Attribute) => {
             _spinnerService.start("Saving...");
             this.saveAttribute(data).subscribe((result: {success: boolean, blocks: Block[],message: string}) => {
@@ -37,19 +38,20 @@ export class AttributeManageComponent implements OnInit {
                 else
                     this.toasterService.pop('error', 'Error', result.message);
             });
+        });
 
-            // if(this.attr_to_edit){
-            //     this.attr_to_edit.label = data.label;
-            //     this.attr_to_edit.type = data.type;
-            //     this.attr_to_edit.allow_null = data.allow_null;
-            //     this.attr_to_edit = null;
-            // }else{
-            //     let block_to_add = this.blocks.filter((block: Block) => {
-            //         return block.block_id == data.block_id;
-            //     });
-
-            //     block_to_add[0].attributes.push(data);
-            // }
+        _attributeService.deleteAnnounced.subscribe(attr_id => {
+            if(confirm("Are you sure to delete this attribute?")){
+                this.deleteAttribute(attr_id).subscribe((result: {success: boolean, blocks: Block[], message: string}) => {
+                    if(result.success){
+                        this.blocks = result.blocks;
+                        this.toasterService.pop('success', 'Delete successfully', result.message);
+                        _attributeService.doneAnnounce('attr_deleted');
+                    }
+                    else
+                        this.toasterService.pop('error', 'Error', result.message);
+                });
+            }
         });
 
         this.block_form = _fb.group({
@@ -117,13 +119,15 @@ export class AttributeManageComponent implements OnInit {
     }
 
     triggerDeleteBlock(block: Block){
-        this.deleteBlock(block.block_id).subscribe((result: {success: boolean, blocks: Block[], message: string}) => {
-            if(result.success){
-                this.blocks = result.blocks;
-            }else{
-                this.toasterService.pop('error', 'Error', result.message);
-            }
-        });
+        if(confirm("Are you sure to delete this block?")){
+            this.deleteBlock(block.block_id).subscribe((result: {success: boolean, blocks: Block[], message: string}) => {
+                if(result.success){
+                    this.blocks = result.blocks;
+                }else{
+                    this.toasterService.pop('error', 'Error', result.message);
+                }
+            });
+        }
     }
 
     saveBlock(value): Observable<any>{
@@ -140,10 +144,14 @@ export class AttributeManageComponent implements OnInit {
     }
 
     deleteBlock(block_id): Observable<any>{
-        if(confirm("Are you sure to delete this block?")){
-            return this.http.post('/block/delete-block', {block_id: block_id}).map((response: Response) => {
-                return response.json();
-            });
-        }
+        return this.http.post('/block/delete-block', {block_id: block_id}).map((response: Response) => {
+            return response.json();
+        });
+	}
+
+    deleteAttribute(attr_id): Observable<any>{
+        return this.http.post('/attribute/delete-attribute', {attr_id: attr_id}).map((response: Response) => {
+            return response.json();
+        });
 	}
 }

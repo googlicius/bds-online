@@ -15,7 +15,8 @@ export class AttributeEdit implements OnInit, OnDestroy
     private attr_form: FormGroup;
     private attr_form_active: boolean = false;
     private form_title = "Add new attribute";
-    private subscription: Subscription;
+    private subscription1: Subscription;
+    private subscription2: Subscription;
 
     constructor(fb: FormBuilder, private _attributeService: AttributeService){
         this.attr_form = fb.group({
@@ -29,7 +30,7 @@ export class AttributeEdit implements OnInit, OnDestroy
             seq: ['']
         })
 
-        this.subscription = _attributeService.editAnnounced.subscribe((data: {block: Block, attr: Attribute}) => {
+        this.subscription1 = _attributeService.editAnnounced.subscribe((data: {block: Block, attr: Attribute}) => {
             this.attr_form_active = true;
             if(typeof data.attr != 'undefined'){
                 let attr = data.attr;
@@ -50,8 +51,21 @@ export class AttributeEdit implements OnInit, OnDestroy
                 this.attr_form.patchValue({
                     block_id: data.block.block_id,
                     is_custom: true,
+                    type: '',
                 });
                 this.form_title = "Add new attribute";
+            }
+        });
+
+        this.subscription2 = _attributeService.doneAnnounced.subscribe(type => {
+            switch(type){
+                case 'attr_deleted':
+                    this.attr_form.reset();
+                    this.attr_form.patchValue({
+                        is_custom: true,
+                        type: '',
+                    })
+                    break;
             }
         });
     }
@@ -61,7 +75,8 @@ export class AttributeEdit implements OnInit, OnDestroy
     }
 
     ngOnDestroy(){
-        this.subscription.unsubscribe();
+        this.subscription1.unsubscribe();
+        this.subscription2.unsubscribe();
     }
 
     triggerSave()
@@ -76,6 +91,13 @@ export class AttributeEdit implements OnInit, OnDestroy
             this._attributeService.saveAnnounce(this.attr_form.value);
         }else{
             console.log("Form invalid", this.attr_form.errors,this.attr_form.value);
+        }
+    }
+
+    triggerDeleteAttribute()
+    {
+        if(this.attr_form.value.attr_id){
+            this._attributeService.deleteAnnounce(this.attr_form.value.attr_id);
         }
     }
 
