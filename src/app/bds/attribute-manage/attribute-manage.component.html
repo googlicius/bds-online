@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-6">
         <section class="panel">
             <div class="panel-heading">
                 Quản lý trường
@@ -7,13 +7,16 @@
             <div class="panel-body">
                 <div class="row-fluid">
                     <!-- BLOCKS LIST -->
-                    <div class="col-sm-6">
-                        <ul class="blocks">
-                            <li *ngFor="let block of blocks" class="block">
-                                <div class="block-heading">
-                                    <div class="row-fluid clearfix">
+                    <div class="col-sm-12">
+                        <ul class="blocks" [dragula]='"bag-block"'>
+                            <!-- BLOCK -->
+                            <li *ngFor="let block of blocks" class="block dragula">
+                                <div class="block-heading movable">
+                                    <div class="row clearfix">
                                         <div class="col-xs-8">
+                                            <span *ngIf="!block.edit" class="fa fa-arrows"></span> 
                                             <span *ngIf="!block.edit" class="title">{{ block.name }}</span>
+                                            <!-- EDIT BLOCK FORM -->
                                             <form *ngIf="block.edit" [formGroup]="block_form" (ngSubmit)="triggerSaveBlock()" style="margin-bottom: 10px;">
                                                 <div class="row clearfix">
                                                     <div class="col-xs-6">
@@ -21,31 +24,40 @@
                                                     </div>
                                                     <div class="col-xs-6">
                                                         <input type="submit" class="btn btn-primary" value="Save">
-                                                        <input (click)="triggerCancelEditBlock(block)" type="button" class="btn btn-default" value="Cancel">
                                                     </div>
                                                 </div>
                                             </form>
+                                            <!-- /EDIT BLOCK FORM -->
                                         </div>
                                         <div class="col-xs-4 text-right">
-                                            <a (click)="triggerEditBlock(block)" href="javascript:void(0)"> Sửa</a>
-                                            <a (click)="triggerDeleteBlock(block)" href="javascript:void(0)"> Xóa</a>
+                                            <a *ngIf="block.edit" (click)="triggerCancelEditBlock(block)" href="javascript:void(0)">Bỏ qua</a>
+                                            <a *ngIf="!block.edit" (click)="triggerOpenEditBlock(block)" href="javascript:void(0)"> Sửa</a> 
+                                            | <a (click)="triggerDeleteBlock(block)" href="javascript:void(0)"> Xóa</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="block-body">
-                                    <ul class="attributes">
-                                        <li *ngFor="let attr of block.attributes" class="attribute">
-                                            <div class="row-fluid clearfix">
-                                                <div class="col-xs-12">
-                                                    <a href="javascript:void(0)" (click)="triggerEditAttribute(block,attr)">{{ attr.label }}</a>
+                                    <ul class="attributes" [dragula]='"bag-attribute"'>
+                                        <!-- ATTRIBUTE -->
+                                        <li *ngFor="let attr of block.attributes" class="attribute dragula">
+                                            <div class="row-fluid clearfix movable">
+                                                <div>
+                                                    <a href="javascript:void(0)" (click)="triggerOpenEditAttributeModal(block,attr)">{{ attr.label }}</a>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="attribute"><a (click)="triggerAddNewAttribute(block)" href="javascript:void(0)"><i class="fa fa-plus"></i> {{ 'manage.LBL_ADD_ATTR' | translate }}</a></li>
+                                        <!-- /ATTRIBUTE -->
+                                    </ul>
+                                    <ul class="attributes">
+                                        <li class="attribute"><a (click)="triggerOpenEditAttributeModal(block)" href="javascript:void(0)"><i class="fa fa-plus"></i> {{ 'manage.LBL_ADD_ATTR' | translate }}</a></li>
                                     </ul>
                                 </div>
                             </li>
+                            <!-- /BLOCK -->
+                        </ul>
+                        <ul class="blocks">
                             <li class="block">
+                                <!-- ADD BLOCK FORM -->
                                 <form *ngIf="block_form_open" [formGroup]="block_form" (ngSubmit)="triggerSaveBlock()">
                                     <div class="row-fluid clearfix">
                                         <div class="col-xs-6">
@@ -57,16 +69,12 @@
                                         </div>
                                     </div>
                                 </form>
+                                <!-- /ADD BLOCK FORM -->
                                 <a *ngIf="!block_form_open" (click)="triggerAddNewBlock()" href="javascript:void(0)" style="font-size:1.1em"><i class="fa fa-plus"></i> Thêm block</a>
                             </li>
                         </ul>
                     </div>
                     <!-- /BLOCKS LIST -->
-                    <!-- ADDING/EDITING ATTRIBUTE -->
-                    <div class="col-sm-6">
-                        <attribute-edit></attribute-edit>
-                    </div>
-                    <!-- /ADDING/EDITING ATTRIBUTE -->
                 </div>
             </div>
         </section>

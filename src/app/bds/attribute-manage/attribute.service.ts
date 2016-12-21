@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs';
 import { Attribute, Block } from './interfaces';
 
 Injectable()
-export class AttributeService{
+export class AttributeService
+{
     private saveSource: Subject<any> = new Subject<any>();
     private editSource: Subject<any> = new Subject<any>();
     private deleteSource: Subject<any> = new Subject<any>();
@@ -14,7 +17,7 @@ export class AttributeService{
     deleteAnnounced = this.deleteSource.asObservable();
     doneAnnounced = this.doneSource.asObservable();
 
-    saveAnnounce(data: Attribute){
+    saveAnnounce(data: any){
         this.saveSource.next(data);
     }
 
@@ -22,8 +25,8 @@ export class AttributeService{
         this.editSource.next({block: block, attr: attr});
     }
 
-    deleteAnnounce(attr_id: number){
-        this.deleteSource.next(attr_id);
+    deleteAnnounce(id: number){
+        this.deleteSource.next(id);
     }
 
     doneAnnounce(type: string){

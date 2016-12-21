@@ -39,9 +39,7 @@ export class LoginFormComponent {
 			password: ['', [<any>Validators.required]],
 			rememberMe: [false]
 		});
-		this.loginForm.patchValue({
-			username: 'admin',
-		});
+		this.loginForm.patchValue({username: 'admin'});
 	}
 
 	login(model: LoginForm, isValid: boolean){
@@ -53,6 +51,7 @@ export class LoginFormComponent {
 				}
 				else{
 					this.login_error_msg = "Username or password is incorrect";
+					this.loginForm.patchValue({password:''});
 				}
 			});
 		}

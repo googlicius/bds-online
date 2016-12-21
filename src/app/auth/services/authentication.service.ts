@@ -14,25 +14,25 @@ export class AuthenticationService {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/x-www-form-urlencoded');
 		return this.http.post(APP_LOCAL_CONFIGS.API_URL + '/auth/login', urlEncode(model),{headers:headers})
-		.map((response: Response) => {
-			// login successful if there's a jwt token in the response
-			let login_result = response.json();
-			if (login_result.success) {
+			.map((response: Response) => {
+				// login successful if there's a jwt token in the response
+				let login_result = response.json();
+				if (login_result.success) {
 
-				// store username and jwt token in local storage to keep user logged in between page refreshes
-				localStorage.setItem(APP_LOCAL_CONFIGS.TOKEN_NAME, login_result.token);
+					// store username and jwt token in local storage to keep user logged in between page refreshes
+					localStorage.setItem(APP_LOCAL_CONFIGS.TOKEN_NAME, login_result.token);
 
-				// return true to indicate successful login
-				return true;
-			} else {
-				// return false to indicate failed login
-				return false;
-			}
-		})
-		.catch((error: any) => {
-			let errMsg = (error.message) ? error.message :
-			error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-			return Observable.throw(errMsg);
-		});
+					// return true to indicate successful login
+					return true;
+				} else {
+					// return false to indicate failed login
+					return false;
+				}
+			})
+			.catch((error: any) => {
+				let errMsg = (error.message) ? error.message :
+				error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+				return Observable.throw(errMsg);
+			});
 	}
 }

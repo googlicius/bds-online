@@ -4,12 +4,13 @@ import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { FlatlabTemplateModule as TemplateModule } from './../templates/flatlab';
 import { SharedModule } from './../shared';
-import { BdsArticleRoutingModule } from './bds-article-routing.module';
-import { BdsArticleComponent } from './bds-article.component';
+import { BdsRoutingModule } from './bds-routing.module';
+import { BdsComponent } from './bds.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AttributeManageComponent } from './attribute-manage/attribute-manage.component';
-import { AttributeEdit } from './attribute-manage/attribute-edit';
+import { AttributeEditModal } from './attribute-manage/attribute-edit-modal';
 import { AttributeOptionsComponent } from './attribute-options/attribute-options.component';
+import { ArticleListComponent } from './article-list/article-list.component';
 
 
 @NgModule({
@@ -20,8 +21,9 @@ import { AttributeOptionsComponent } from './attribute-options/attribute-options
     DragulaModule,
     SharedModule,
     TemplateModule,
-    BdsArticleRoutingModule,
+    BdsRoutingModule,
   ],
-  declarations: [BdsArticleComponent, DashboardComponent, AttributeManageComponent, AttributeOptionsComponent, AttributeEdit]
+  declarations: [BdsComponent, DashboardComponent, AttributeManageComponent, AttributeOptionsComponent, AttributeEditModal, ArticleListComponent],
+  entryComponents: [AttributeEditModal],
 })
-export class BdsArticleModule { }
+export class BdsModule { }

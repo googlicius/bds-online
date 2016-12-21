@@ -23,18 +23,18 @@ export class AuthHttp {
 	}
 
 	public delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-		return this.http.post(APP_LOCAL_CONFIGS.API_URL + url,options);
+		return this.http.delete(APP_LOCAL_CONFIGS.API_URL + url,options);
 	}
 
 	public patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-		return this.http.post(APP_LOCAL_CONFIGS.API_URL + url,urlEncode(body),options);
+		return this.http.patch(APP_LOCAL_CONFIGS.API_URL + url,urlEncode(body),options);
 	}
 
 	public head(url: string, options?: RequestOptionsArgs): Observable<Response> {
-		return this.http.post(APP_LOCAL_CONFIGS.API_URL + url,options);
+		return this.http.head(APP_LOCAL_CONFIGS.API_URL + url,options);
 	}
 
 	public options(url: string, options?: RequestOptionsArgs): Observable<Response> {
-		return this.http.post(APP_LOCAL_CONFIGS.API_URL + url,options);
+		return this.http.options(APP_LOCAL_CONFIGS.API_URL + url,options);
 	}
 }

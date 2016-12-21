@@ -1,0 +1,55 @@
+<div class="row">
+	<div class="col-sm-4">
+		<strong style="padding:10px 0; display:block">Showing rows {{_table.display.start}} - {{_table.display.end}} ({{_table.display.collection_size}} total)</strong>
+	</div>
+	<div class="col-sm-8 text-right">
+		<div class="btn-group">
+            <button class="btn btn-sm btn-primary" [disabled]="setDropDownDisabled()" style="margin-top: -4px;" data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>
+            <ul class="dropdown-menu">
+                <li><a>Xóa</a></li>
+                <li><a>Xuất ra PDF</a></li>
+            </ul>
+        </div>
+		<div class="btn-group">
+			<ngb-pagination *ngIf="table.allow_pagination" [collectionSize]="_table.display.collection_size" [(page)]="_table.curent_page" (pageChange)="triggerBuildTablePagingQuery()"></ngb-pagination>
+		</div>
+	</div>
+</div>
+<table class="table" ngClass="{{table.class_name || ''}}" role="grid">
+	<thead>
+		<tr role="row">
+			<th>
+				<input type="checkbox" [checked]="setDefaultCheckAll()" (change)="triggerCheckAll($event.target.checked)">
+			</th>
+			<th *ngFor="let column of table.columns"
+				[ngClass]="setColumClasses(column)"
+				(click)="triggerBuildTableSortQuery(column)">
+				{{column.title}}
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+        <tr *ngIf="showFilterRow">
+			<td></td>
+			<td *ngFor="let column of table.columns">
+				<input *ngIf="column.allow_filtering && column.ui_type=='text'" placeholder="{{column.placeholder}}" class="form-control" (input)="triggerBuildTableFilterQuery(column,$event.target.value)" />
+				<select *ngIf="column.allow_filtering && column.ui_type=='select'" (change)="triggerBuildTableFilterQuery(column,$event.target.value)" class="form-control">
+					<option value="">Select One</option>
+					<option *ngFor="let ui_field of column.ui_fields" value="{{ui_field.id}}">{{ui_field.value}}</option>
+				</select>
+			</td>
+		</tr>
+		<tr *ngIf="_table.display.data.length==0">
+			<td [colSpan]="1000">{{table.not_have_record_msg || 'Not have any record'}}</td>
+		</tr>
+		<tr *ngFor="let row of _table.display.data">
+			<td>
+				<input type="checkbox" [checked]="setDefaultCheckList(row)" (change)="triggerChangeCheckList($event.target.checked,row)">
+			</td>
+			<td  *ngFor="let column of table.columns" [innerHtml]="sanitize(getData(row, column))"></td>
+		</tr>
+	</tbody>
+</table>
+<div class="text-right">
+	<ngb-pagination *ngIf="table.allow_pagination" [collectionSize]="_table.display.collection_size" [(page)]="_table.curent_page" (pageChange)="triggerBuildTablePagingQuery()"></ngb-pagination>
+</div>

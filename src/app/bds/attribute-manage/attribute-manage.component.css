@@ -1,0 +1,82 @@
+.blocks .block,
+.block.gu-mirror{
+    border: thin solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px 10px 10px;
+}
+.block.gu-mirror .block-heading,
+.blocks .block .block-heading{
+    border-bottom: thin solid #ddd;
+}
+.block.gu-mirror .block-body
+.blocks .block .block-body{
+    padding-top: 10px;
+}
+
+.block.gu-mirror .block-heading .title,
+.blocks .block .block-heading .title{
+    font-size: 1.3em;
+}
+
+.attributes .attribute{
+    padding: 5px 5px 5px;
+}
+
+.display_on_hover{
+    display: none;
+}
+.attributes .attribute:hover .display_on_hover{
+    display: inline;
+}
+
+.wrapper .item{
+    border: thin solid #ddd;
+    margin-bottom: 5px;
+}
+
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    background-color: #fff;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+}
+
+.gu-mirror ul li{
+    list-style: none;
+}
+.gu-hide {
+    display: none !important;
+}
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+.gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+}
+
+.gu-mirror {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+.ex-moved {
+    background-color: #e74c3c;
+}
+.ex-over {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.dragula .fa-arrows {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}

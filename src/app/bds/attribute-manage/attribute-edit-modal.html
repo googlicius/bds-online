@@ -1,16 +1,18 @@
-<div class="row-fluid">
-    <h3>{{ form_title }}</h3>
-    <form [formGroup]="attr_form" novalidate (ngSubmit)="triggerSave()">
+<form [formGroup]="attr_form" novalidate (ngSubmit)="triggerSave()">
+    <div class="modal-header">
+        <h3>{{ form_title }}</h3>
+    </div>
+    <div class="modal-body">
         <!-- label -->
-		<div class="form-group">
-			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9">Label</label>
-			<div class="input-group">
-				<input formControlName="label" class="form-control placeholder-no-fix" type="text" placeholder="Label" />
-			</div>
-			<label class="error" [hidden]="attr_form.controls.label.valid || (attr_form.controls.label.pristine && !submitted)">Label is required</label>
-		</div>
-		<!-- /label -->
+        <div class="form-group">
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+            <label class="control-label visible-ie8 visible-ie9">Label</label>
+            <div class="input-group">
+                <input formControlName="label" class="form-control placeholder-no-fix" type="text" placeholder="Label" />
+            </div>
+            <label class="error" [hidden]="attr_form.controls.label.valid || (attr_form.controls.label.pristine && !submitted)">Label is required</label>
+        </div>
+        <!-- /label -->
 
         <!-- Is custom -->
         <div class="form-group">
@@ -31,10 +33,10 @@
         <!-- /Name -->
 
         <!-- type -->
-		<div class="form-group">
-			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9">Type</label>
-			<div class="input-group">
+        <div class="form-group">
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+            <label class="control-label visible-ie8 visible-ie9">Type</label>
+            <div class="input-group">
                 <select class="form-control placeholder-no-fix" formControlName="type">
                     <option value="">-- Select type --</option>
                     <option value="text">Text</option>
@@ -45,10 +47,10 @@
                     <option value="date">Date</option>
                     <option value="textarea">Long text</option>
                 </select>
-			</div>
-			<label class="error" [hidden]="attr_form.controls.type.valid || (attr_form.controls.type.pristine && !submitted)">Type is required</label>
-		</div>
-		<!-- /type -->
+            </div>
+            <label class="error" [hidden]="attr_form.controls.type.valid || (attr_form.controls.type.pristine && !submitted)">Type is required</label>
+        </div>
+        <!-- /type -->
 
         <!-- Allow Null -->
         <div class="form-group">
@@ -59,12 +61,14 @@
             </div>
         </div>
         <!-- /Allow Null -->
-
+    </div>
+    <div class="modal-footer">
         <!-- Actions -->
-		<div class="form-actions clearfix">
-            <input type="submit" class="btn btn-green" value="Save">
-            <input (click)="triggerDeleteAttribute()" type="button" class="btn btn-danger" value="Delete">
-		</div>
-		<!-- /Actions -->
-    </form>
-</div>
+        <div class="form-actions clearfix">
+            <input type="submit" class="btn btn-success" value="Lưu" />
+            <input *ngIf="attr_form.value.attr_id" (click)="triggerDeleteAttribute()" type="button" class="btn btn-danger" value="Xóa" />
+            <input (click)="triggerCloseModal()" type="button" class="btn btn-default" value="Đóng" />
+        </div>
+        <!-- /Actions -->
+    </div>
+</form>

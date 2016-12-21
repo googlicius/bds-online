@@ -29,7 +29,7 @@ import { SpinnerService } from './../shared';
     `,
     providers: [SpinnerService, ToasterService]
 })
-export class BdsArticleComponent implements OnInit {
+export class BdsComponent implements OnInit {
 
     constructor() { }
 
